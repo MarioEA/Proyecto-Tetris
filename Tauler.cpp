@@ -135,10 +135,10 @@ int Tauler::filaCompleta(int files[])const
 //posiciones siempre y cuando puedan y no choquen con otras figuras o sobrepasen la fila máxima que se ha eliminado). Para hacer lo comentado anteriormente, se utiliza el triple bucle (for, for y while).
 //En el primer for se inicia la variable k, que representa las filas del tablero, en la fila máxima eliminada anteriormente menos uno (ya que hay que mirar a partir de esta) y se va restando en uno hasta que llegue a la fila 0 que corresponderá que se ha 
 //comprobado todo el tablero desde la fila máxima hacia arriba. El segundo bucle es otro for pero para ir recorriendo todas las columnas de la fila en concreto. Por lo tanto, si encontramos una posición que 
-//no está vacía, iniciamos una variable llamada j en uno y otra llamada r en cero. Aplicamos un bucle while que mientras esta variable j sea menor al número de filas eliminadas más uno o esa posición pueda
-//bajar se irá ejecutando. Esta variable j representa cuantas veces va a bajar la posición respecto a la fila inicial, por eso mismo si j es 2 y el numFiles + 1 = 2 se saldrá porque no tiene que bajar más, ya que habrá bajado 1 vez que 
-//es lo máximo que tenía que bajar en ese caso concreto la posición, ya que numFiles = 1. La variable r representa la posición en la que está en ese momento de la iteración respecto a la fila inicial. Por eso mismo, una vez dentro del bucle, 
-//se comprueba si la siguiente posición está disponible para que baje => "if (m_tauler[k+j][x] == POSICIO_BUIDA)" y si es así si la fila a la que va a bajar es mayor a la fila máxima no tiene que bajar más => "if (k + j > filaMax)". En caso contrario, baja en una la posición, y se incrementan las variables
+//no está vacía, iniciamos una variable llamada j en uno y otra llamada r en cero. Aplicamos un bucle while que mientras esta variable r sea menor al número de filas eliminadas o esa posición pueda
+//bajar se irá ejecutando. La variable j representa cuantas veces va a bajar la posición respecto a la fila inicial. La variable r representa la posición en la que está en ese momento de la iteración 
+//respecto a la fila inicial es decir cuantas veces ha bajado. Por eso mismo, el bucle se deberá de ir ejecutando mientras la r sea menor al número de filas eliminadas. 
+//En cada iteración se comprueba si la siguiente posición está disponible para que baje => "if (m_tauler[k+j][x] == POSICIO_BUIDA)" y si es así si la fila a la que va a bajar es mayor a la fila máxima no tiene que bajar más => "if (k + j > filaMax)". En caso contrario, baja en una la posición, y se incrementan las variables
 //j y r. Hay que aclarar que todo se hace respecto a la posición inicial, por eso existen las variables j y r. Ya que por ejemplo, si ya ha bajado una vez la posición r = 1 (ya que la posición referencia donde está en ese momento es la fila original +1) y j = 2 (ya que la posición donde tiene que moverse es fila original + 2), por lo tanto, al sumar =>
 //si fila original k=4 => m_tauler[k+j][x] que corresponde la siguiente posición que tiene que bajar, será igual a (fila = 6, columna = x) y m_tauler[k+r][x] que corresponde a la posición en la que está en esa
 //iteración, será igual a (fila = 5, columna = x), de esa manera se comprueba en cada iteración si puede bajar y si no es así se quedará en la posición en la que estaba.
@@ -169,7 +169,7 @@ void Tauler::eliminarFiles(const int files[],const int& numFiles)
 				j = 1;
 				r = 0;
 				haDeBaixar = true;
-				while (j < (numFiles +1) and haDeBaixar)
+				while (r < (numFiles) and haDeBaixar)
 				{
 					if (m_tauler[k+j][x] == POSICIO_BUIDA )
 					{
