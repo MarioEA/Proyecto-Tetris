@@ -301,7 +301,6 @@ void Figura::inicialitza(TipusFigura const& tipus, ColorFigura const& color, int
 				c++;
 			}
 		}
-
 	}break;
 	}
 		for (int k = 0; k < gir; k++)
@@ -327,6 +326,7 @@ Figura::Figura(TipusFigura const& tipus, ColorFigura const& color, Posicio const
 		posMatriuFigura[i].setFila(matriu[i].getFila());
 	}
 }
+
 //Método de la clase Figura con retorno booleano que recibe como parámetros una variable tipo Tauler que representa el tablero en juego y la dirección del giro.
 //Este método sirve para comprobar si la figura puede hacer el giro horario o antihorario correspondiente. Para hacer esa comprovación se hace una copia de la figura en juego
 //en ese instante con el constructor con parámetros y a la vez se utiliza el método de la clase Tauler CopiaTauler para hacer la copia del mismo. Con esas copias dependiendo del 
@@ -571,21 +571,21 @@ bool Figura::potDesplacarseDreta(const Tauler& tauler)
 
 bool Figura::desplacarLateral(DireccioDesplacar const& direccio, Tauler& tauler)
 {   
-	bool potDesplaçarse = true;
+	bool potDesplacarse = true;
 	if (direccio == MOU_DRETA)
 	{
 		if (potDesplacarseDreta(tauler))
 			desplacarDreta(tauler);
 		else
-			potDesplaçarse = false;
+			potDesplacarse = false;
 	}
 	else {
 		if (potDesplacarseEsquerra(tauler)) 	
 			desplacarEsquerra(tauler);
 		else 
-			potDesplaçarse = false;
+			potDesplacarse = false;
 	}
-	return potDesplaçarse;
+	return potDesplacarse;
 }
 
 //Método de la clase Figura que recibe como parámetro el tablero, comprueba si puede bajar y si puede hace que baje la figura en el tablero.

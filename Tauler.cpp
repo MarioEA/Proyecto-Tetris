@@ -128,7 +128,6 @@ int Tauler::filaCompleta(int files[])const
 	return numFilesCompletes;
 }
 
-
 //Método de la clase Tauler sin retorno que recibe como parámetros el array de filas completas (esta vez no está vacío) y el número de las filas eliminadas. Este método tiene la función de eliminar 
 //las filas completas que se reciben a través del array files. Para eso se utiliza el primer bucle for donde se ponen a POSICIO_BUIDA todas las posiciones que ocupen las filas correspondientes que 
 //están completas según el array files. Una vez se eliminan las filas completas hay que bajar todas las posiciones que estén por encima de cada fila eliminada. Para eso, se utiliza el triple bucle for donde el primero la i representa 
