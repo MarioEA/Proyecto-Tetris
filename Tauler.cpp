@@ -69,7 +69,6 @@ void Tauler::eliminarFiguraTauler(const Posicio posFigura[])
 		int columna = pos.getColumna();
 		m_tauler[fila][columna] = POSICIO_BUIDA;
 	}
-
 }
 
 //Método de la clase Tauler con retorno booleano, que recibe como parámetro una variable tipo Figura que corresponde a la figura en juego.
@@ -158,13 +157,10 @@ void Tauler::eliminarFiles(const int files[],const int& numFiles)
 					m_tauler[f][c] = m_tauler[f - 1][c];
 				}
 				else
-					m_tauler[f][c] = POSICIO_BUIDA;
-				
-			}
-				
+					m_tauler[f][c] = POSICIO_BUIDA;	
+			}	
 		}
 	}
-	
 }
 
 //Método de la clase Tauler sin retorno que recibe una variable tipo ofstream llamada output.Este método es el encargado de

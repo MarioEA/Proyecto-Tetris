@@ -561,7 +561,6 @@ bool Figura::potDesplacarseDreta(const Tauler& tauler)
 	Tauler copiaTauler = tauler.CopiaTauler();
 	temp.desplacarDreta(copiaTauler);
 	pot = copiaTauler.FiguraCorrectaTauler(temp);
-
 	return pot;
 }
 
@@ -579,7 +578,6 @@ bool Figura::desplacarLateral(DireccioDesplacar const& direccio, Tauler& tauler)
 			desplacarDreta(tauler);
 		else
 			potDesplaçarse = false;
-
 	}
 	else {
 		if (potDesplacarseEsquerra(tauler)) 	
