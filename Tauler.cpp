@@ -1,11 +1,11 @@
 #include "Tauler.h"
 
-//MÃ©todo de la clase Tauler sin retorno que recibe como parÃ¡metros un string con el nombre del fichero y una variable tipo Figura 
-//que es donde hay que guardar toda la informaciÃ³n de la figura que estÃ¡ en juego. En consecuencia, este mÃ©todo crea una variable 
-//tipo ifstream llamada fitxer, la abre y a partir de ahÃ­ va insertando la informaciÃ³n del fichero en todas las variables correspondientes 
-//(tipo, color...). Seguidamente, utiliza un mÃ©todo de la clase Figura para inicializar la variable FiguraEnJoc (color, tipo, posiciÃ³n en tablero, matriz de ella...).
-//Una vez inicializada la figura en juego, va insertando en el tablero toda la informaciÃ³n restante del fichero para asÃ­ inicializarlo correctamente.
-//Por Ãºltimo, instaura la figura en juego en su posiciÃ³n inicial en el tablero, calculada en el mÃ©todo inicializa de la clase Figura, y cierra el fichero.
+//Método de la clase Tauler sin retorno que recibe como parámetros un string con el nombre del fichero y una variable tipo Figura 
+//que es donde hay que guardar toda la información de la figura que está en juego. En consecuencia, este método crea una variable 
+//tipo ifstream llamada fitxer, la abre y a partir de ahí va insertando la información del fichero en todas las variables correspondientes 
+//(tipo, color...). Seguidamente, utiliza un método de la clase Figura para inicializar la variable FiguraEnJoc (color, tipo, posición en tablero, matriz de ella...).
+//Una vez inicializada la figura en juego, va insertando en el tablero toda la información restante del fichero para así inicializarlo correctamente.
+//Por último, instaura la figura en juego en su posición inicial en el tablero, calculada en el método inicializa de la clase Figura, y cierra el fichero.
 
 void Tauler::incialitzaTauler(const string& nomFitxer,Figura &FiguraEnJoc) 
 {
@@ -42,8 +42,8 @@ void Tauler::incialitzaTauler(const string& nomFitxer,Figura &FiguraEnJoc)
 	fitxer.close();
 }
 
-//MÃ©todo de la clase Tauler sin retorno que recibe como parÃ¡metro una variable de tipo Figura que representa la figura que estÃ¡ en juego 
-//y la que queremos instaurar en el tablero en su posiciÃ³n correspondiente. Por eso mismo, hacemos un bucle para obtener cada posiciÃ³n de la figura 
+//Método de la clase Tauler sin retorno que recibe como parámetro una variable de tipo Figura que representa la figura que está en juego 
+//y la que queremos instaurar en el tablero en su posición correspondiente. Por eso mismo, hacemos un bucle para obtener cada posición de la figura 
 //y la vamos metiendo en el tablero.
 
 void Tauler::setFiguraTauler(const Figura& FiguraEnJoc)
@@ -58,7 +58,7 @@ void Tauler::setFiguraTauler(const Figura& FiguraEnJoc)
 	}
 }
 
-//MÃ©todo de la clase Tauler sin retorno que recibe como parÃ¡metro las posiciones en el tablero de una figura y que con un bucle va eliminando del tablero.
+//Método de la clase Tauler sin retorno que recibe como parámetro las posiciones en el tablero de una figura y que con un bucle va eliminando del tablero.
 
 void Tauler::eliminarFiguraTauler(const Posicio posFigura[])
 {
@@ -72,9 +72,9 @@ void Tauler::eliminarFiguraTauler(const Posicio posFigura[])
 
 }
 
-//MÃ©todo de la clase Tauler con retorno booleano, que recibe como parÃ¡metro una variable tipo Figura que corresponde a la figura en juego.
-//Este mÃ©todo comprueba si cada posiciÃ³n de la figura estÃ¡ correctamente instaurada en Ã©l, es decir, si choca con otras figuras o si alguna posiciÃ³n 
-//estÃ¡ fuera de los rangos del tablero. Devuelve true si estÃ¡ correcta en el tablero y false en caso contrario, cosa que hace con la variable booleana 
+//Método de la clase Tauler con retorno booleano, que recibe como parámetro una variable tipo Figura que corresponde a la figura en juego.
+//Este método comprueba si cada posición de la figura está correctamente instaurada en él, es decir, si choca con otras figuras o si alguna posición 
+//está fuera de los rangos del tablero. Devuelve true si está correcta en el tablero y false en caso contrario, cosa que hace con la variable booleana 
 //pot.
 
 bool Tauler::FiguraCorrectaTauler(const Figura& FiguraEnJoc)const
@@ -97,11 +97,11 @@ bool Tauler::FiguraCorrectaTauler(const Figura& FiguraEnJoc)const
 	return pot;
 }
 
-//MÃ©todo de la clase Tauler con retorno tipo int que recibe como parÃ¡metro un array tipo int vacÃ­o llamado files.
-//Este mÃ©todo recorre con el doble bucle todo el tablero en busca de filas completas, para eso usa la variable booleana
-//completa que solo serÃ¡ true si todas las posciones de la fila son diferentes a POSICIO_BUIDA. En caso de que la fila sea
-//completa la guarda en el array files en la posiciÃ³n correspondiente (si es la primera fila que se guarda en la 0,si es la segunda 1...).
-//Finalmente, este mÃ©todo devuelve el nÃºmero de filas completas en la variable numFilesCompletes.
+//Método de la clase Tauler con retorno tipo int que recibe como parámetro un array tipo int vacío llamado files.
+//Este método recorre con el doble bucle todo el tablero en busca de filas completas, para eso usa la variable booleana
+//completa que solo será true si todas las posciones de la fila son diferentes a POSICIO_BUIDA. En caso de que la fila sea
+//completa la guarda en el array files en la posición correspondiente (si es la primera fila que se guarda en la 0,si es la segunda 1...).
+//Finalmente, este método devuelve el número de filas completas en la variable numFilesCompletes.
 
 int Tauler::filaCompleta(int files[])const
 {
@@ -129,19 +129,13 @@ int Tauler::filaCompleta(int files[])const
 	return numFilesCompletes;
 }
 
-//MÃ©todo de la clase Tauler sin retorno que recibe el array anterior files (esta vez no estÃ¡ vacÃ­o) y nÃºmero de filas que se tienen que eliminar, ya que estÃ¡n completas.
-//Por eso, con el primer bucle elimina las filas correspondientes del array files y despuÃ©s calcula de esas filas eliminadas cuÃ¡l es la mÃ¡xima. Esto se hace para saber desde quÃ© fila
-//hay que empezar a recorrer el tablero para hacer que las figuras de arriba se bajen tantas veces como filas eliminadas (si numFiles es 2 las figuras de arriba de la fila mÃ¡xima eliminada tendrÃ¡n que bajar 2
-//posiciones siempre y cuando puedan y no choquen con otras figuras o sobrepasen la fila mÃ¡xima que se ha eliminado). Para hacer lo comentado anteriormente, se utiliza el triple bucle (for, for y while).
-//En el primer for se inicia la variable k, que representa las filas del tablero, en la fila mÃ¡xima eliminada anteriormente menos uno (ya que hay que mirar a partir de esta) y se va restando en uno hasta que llegue a la fila 0 que corresponderÃ¡ que se ha 
-//comprobado todo el tablero desde la fila mÃ¡xima hacia arriba. El segundo bucle es otro for pero para ir recorriendo todas las columnas de la fila en concreto. Por lo tanto, si encontramos una posiciÃ³n que 
-//no estÃ¡ vacÃ­a, iniciamos una variable llamada j en uno y otra llamada r en cero. Aplicamos un bucle while que mientras esta variable r sea menor al nÃºmero de filas eliminadas o esa posiciÃ³n pueda
-//bajar se irÃ¡ ejecutando. La variable j representa cuantas veces va a bajar la posiciÃ³n respecto a la fila inicial. La variable r representa la posiciÃ³n en la que estÃ¡ en ese momento de la iteraciÃ³n 
-//respecto a la fila inicial es decir cuantas veces ha bajado. Por eso mismo, el bucle se deberÃ¡ de ir ejecutando mientras la r sea menor al nÃºmero de filas eliminadas. 
-//En cada iteraciÃ³n se comprueba si la siguiente posiciÃ³n estÃ¡ disponible para que baje => "if (m_tauler[k+j][x] == POSICIO_BUIDA)" y si es asÃ­ si la fila a la que va a bajar es mayor a la fila mÃ¡xima no tiene que bajar mÃ¡s => "if (k + j > filaMax)". En caso contrario, baja en una la posiciÃ³n, y se incrementan las variables
-//j y r. Hay que aclarar que todo se hace respecto a la posiciÃ³n inicial, por eso existen las variables j y r. Ya que por ejemplo, si ya ha bajado una vez la posiciÃ³n r = 1 (ya que la posiciÃ³n referencia donde estÃ¡ en ese momento es la fila original +1) y j = 2 (ya que la posiciÃ³n donde tiene que moverse es fila original + 2), por lo tanto, al sumar =>
-//si fila original k=4 => m_tauler[k+j][x] que corresponde la siguiente posiciÃ³n que tiene que bajar, serÃ¡ igual a (fila = 6, columna = x) y m_tauler[k+r][x] que corresponde a la posiciÃ³n en la que estÃ¡ en esa
-//iteraciÃ³n, serÃ¡ igual a (fila = 5, columna = x), de esa manera se comprueba en cada iteraciÃ³n si puede bajar y si no es asÃ­ se quedarÃ¡ en la posiciÃ³n en la que estaba.
+
+//Método de la clase Tauler sin retorno que recibe como parámetros el array de filas completas (esta vez no está vacío) y el número de las filas eliminadas. Este método tiene la función de eliminar 
+//las filas completas que se reciben a través del array files. Para eso se utiliza el primer bucle for donde se ponen a POSICIO_BUIDA todas las posiciones que ocupen las filas correspondientes que 
+//están completas según el array files. Una vez se eliminan las filas completas hay que bajar todas las posiciones que estén por encima de cada fila eliminada. Para eso, se utiliza el triple bucle for donde el primero la i representa 
+//el índice del array files. En el segundo iniciamos la fila en la fila i eliminada dependiendo del valor de i. Un ejemplo, si i = 2 la fila la iniciaremos en la fila que tiene guardado el array files en la 
+//posición 2 y así con todas sucesivamente. Una vez estamos en esa fila en concreta eliminada, vamos recorriendo todas las filas hacia arriba y bajando una posición a todos los bloques de cada fila, hasta que 
+//lleguemos a la fila 0 donde la pondremos toda en POSICIO_BUIDA para así conseguir que todos los bloques que están por encima de la fila eliminada bajen una su posición.
 
 void Tauler::eliminarFiles(const int files[],const int& numFiles)
 {
@@ -153,46 +147,27 @@ void Tauler::eliminarFiles(const int files[],const int& numFiles)
 			m_tauler[files[f]][c] = POSICIO_BUIDA;
 	}
 
-	int filaMax = files[0];
-	for (int i = 1; i < numFiles; i++)
+	for (int i = 0; i < numFiles; i++)
 	{
-		if (files[i] > filaMax)
-			filaMax = files[i];
-	}
-
-	for (int k = filaMax - 1; k > -1; k--)
-	{
-		for (int x = 0; x < MAX_COLUMNES; x++)
+		for (int f = files[i]; f > -1; f--)
 		{
-			if (m_tauler[k][x] != POSICIO_BUIDA)
+			for (int c = 0; c < MAX_COLUMNES; c++)
 			{
-				j = 1;
-				r = 0;
-				haDeBaixar = true;
-				while (r < numFiles and haDeBaixar)
+				if (f != 0)
 				{
-					if (m_tauler[k+j][x] == POSICIO_BUIDA )
-					{
-						if (k + j > filaMax) {
-							haDeBaixar = false;
-						}
-						else
-						{
-							m_tauler[k+j][x] = m_tauler[k+r][x];
-							m_tauler[k+r][x] = POSICIO_BUIDA;
-							j++;
-							r++;
-						}
-					}
-					else
-						haDeBaixar=false;
+					m_tauler[f][c] = m_tauler[f - 1][c];
 				}
+				else
+					m_tauler[f][c] = POSICIO_BUIDA;
+				
 			}
+				
 		}
 	}
+	
 }
 
-//MÃ©todo de la clase Tauler sin retorno que recibe una variable tipo ofstream llamada output.Este mÃ©todo es el encargado de
+//Método de la clase Tauler sin retorno que recibe una variable tipo ofstream llamada output.Este método es el encargado de
 //meter en esta variable output todo el tablero de ese instante de tiempo.
 
 void Tauler::estatTauler(ofstream& output)
@@ -204,7 +179,7 @@ void Tauler::estatTauler(ofstream& output)
 	}
 }
 
-//MÃ©todo de la clase Tauler con retorno tipo Tauler que hace una copia del tablero de ese instante de tiempo a una variable tipo Tauler
+//Método de la clase Tauler con retorno tipo Tauler que hace una copia del tablero de ese instante de tiempo a una variable tipo Tauler
 //llamada copiaTauler y la devuelve.
 
 Tauler Tauler::CopiaTauler()const
