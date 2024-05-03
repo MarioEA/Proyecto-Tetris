@@ -1,6 +1,6 @@
 # Proyecto-Tetris
 Mario Escamilla Arias - 1710852
-Ivan Guerra - 1704491
+Ivan Guerra Alarcon - 1704491
 
 En aquest projecte hem de fer un programa que ens permeti jugar al tetris.
 Per fer-ho hem creat tres arxius .cpp, Figura.cpp, Tauler.cpp i Joc.cpp, i tres arxius .h, Figura.h, Tauler.h i Joc.h
