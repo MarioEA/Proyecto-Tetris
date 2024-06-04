@@ -1,5 +1,6 @@
 #ifndef FIGURA_H
 #define FIGURA_H
+#include"InfoJoc.h"
 
 //Declaración de una constante que es el nombre máximo de posiciones que puede tener una figura en el tetris.
 
@@ -38,37 +39,6 @@ typedef enum
 
 }CodiTauler;
 
-//Lo mismo que la anterior pero para el tipo de figura que está en juego.
-
-typedef enum 
-{
-	NO_FIGURA = 0,
-	FIGURA_O,
-	FIGURA_I,
-	FIGURA_T,
-	FIGURA_L,
-	FIGURA_J,
-	FIGURA_Z,
-	FIGURA_S,
-
-}TipusFigura;
-
-//Lo mismo pero para el color de la figura.
-
-typedef enum
-{
-	COLOR_NEGRE = 0,
-	COLOR_GROC,
-	COLOR_BLAUCEL,
-	COLOR_MAGENTA,
-	COLOR_TARONJA,
-	COLOR_BLAUFOSC,
-	COLOR_VERMELL,
-	COLOR_VERD,
-	NO_COLOR
-
-}ColorFigura;
-
 //Clase Posición que contiene toda la información sobre cada posición de una figura del tetris.
 
 class Posicio {
@@ -76,6 +46,7 @@ public:
 	Posicio() { m_fila = -1; m_columna = -1; }; //Constructor por defecto.
 	Posicio(int const& fila, int const& columna) { m_fila = fila; m_columna = columna; }; //Constructor con parámetros.
 
+	void operator=(const Posicio& pos);
 	void setFila(const int& fila) { m_fila = fila; }; //Instaura la fila de una posición de la figura.
 	void setColumna(const int& columna) { m_columna = columna; }; //Instaura la columna de una posición de la figura.
 	int getFila()const { return m_fila; }; //Devuelve la fila de esa posición de la figura,
@@ -93,16 +64,19 @@ class Tauler; //Declaración indirecta de la clase Tauler para tener así la infor
 class Figura
 {
 public:
-	Figura() { Tipus = NO_FIGURA; Color = NO_COLOR;} //Constructor por defecto.
+	Figura() { Tipus = NO_FIGURA; Color = NO_COLOR; m_columna = 0; } //Constructor por defecto.
 	Figura(TipusFigura const& tipus, ColorFigura const& color, Posicio const Pos[],  Posicio const matriu[]); //Constructor con parámetros.
 
+	void operator=(const Figura& figura);
 	Posicio getPosicio(int const& index)const { return PosicioFiguraTauler[index]; }; //Método que devuelve una posición en concreto de la figura.
 	ColorFigura getColor()const { return Color; }; //Método que devuelve el color de la figura.
-
+	Posicio getPosicioMatriu(int const& index)const { return posMatriuFigura[index]; }
+	int getColumna()const { return m_columna; }
 	void inicialitza(TipusFigura const& tipus, ColorFigura const& color, int const& fila, int const& columna,int const& gir); //Método que inicializa la figura en el tablero.
 	bool desplacarLateral(DireccioDesplacar const& direccio,Tauler& tauler); //Método que deplaza hacia un lado la figura.
 	bool Baixa(Tauler& tauler); //Método que hace bajar a la figura.
 	bool Girar(DireccioGir const& dir, Tauler& tauler); //Método que gira la figura hacia una dirección.
+	bool BaixaFiguraTransparent(const Tauler& tauler);
 
 private:
 	void traspostaInicial();
@@ -121,5 +95,6 @@ private:
 	Posicio PosicioFiguraTauler[POS_MAXFIGURA]; //Array de tipo Posicio que contiene cada posición de la figura respecto al tablero.
 	Posicio posMatriuFigura[POS_MAXFIGURA]; //Array de tipo Posicio que contiene cada posición de la figura respecto a la matriz de cada figura.
 	Posicio canvisRespecteTauler[POS_MAXFIGURA]; //Array de tipo Posicio que contiene cuanto se tiene que mover cada posición de la figura en el tablero. 
+	int m_columna;
 };
 #endif

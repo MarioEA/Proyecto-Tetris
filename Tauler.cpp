@@ -7,20 +7,20 @@
 //Una vez inicializada la figura en juego, va insertando en el tablero toda la información restante del fichero para así inicializarlo correctamente.
 //Por último, instaura la figura en juego en su posición inicial en el tablero, calculada en el método inicializa de la clase Figura, y cierra el fichero.
 
-void Tauler::incialitzaTauler(const string& nomFitxer,Figura &FiguraEnJoc) 
+void Tauler::incialitzaTauler(const string& nomFitxer,Figura &FiguraEnJoc, int& fila, int& columna) 
 {
 	ifstream fitxer;
 	fitxer.open(nomFitxer);
 	if (fitxer.is_open())
 	{
 		int tipus;
-		int fila, columna;
 		int gir;
 		fitxer >> tipus >> fila >> columna >> gir;
 		TipusFigura Tipus = TipusFigura(tipus);
 		ColorFigura Color = ColorFigura(tipus);		
 		FiguraEnJoc.inicialitza(Tipus, Color, fila, columna, gir);
-
+		fila++;
+		columna++;
 			for(int f = 0; f < MAX_FILES; f++)
 			{
 				for (int c = 0; c < MAX_COLUMNES; c++)
@@ -29,14 +29,6 @@ void Tauler::incialitzaTauler(const string& nomFitxer,Figura &FiguraEnJoc)
 					fitxer >> codi;
 					m_tauler[f][c] = CodiTauler(codi);
 				}
-			}
-
-			for (int i = 0; i < POS_MAXFIGURA; i++)
-			{
-				Posicio x = FiguraEnJoc.getPosicio(i);
-				int fila = x.getFila();
-				int columna = x.getColumna();
-				m_tauler[fila][columna] = CodiTauler(Color);
 			}
 	}
 	fitxer.close();
@@ -60,11 +52,22 @@ void Tauler::setFiguraTauler(const Figura& FiguraEnJoc)
 
 //Método de la clase Tauler sin retorno que recibe como parámetro las posiciones en el tablero de una figura y que con un bucle va eliminando del tablero.
 
-void Tauler::eliminarFiguraTauler(const Posicio posFigura[])
+void Tauler::eliminarPosicioTauler(const Posicio posFigura[])
 {
 	for (int i = 0; i < POS_MAXFIGURA; i++)
 	{
 		Posicio pos = posFigura[i];
+		int fila = pos.getFila();
+		int columna = pos.getColumna();
+		m_tauler[fila][columna] = POSICIO_BUIDA;
+	}
+}
+
+void Tauler::eliminarFiguraTauler(const Figura& figura)
+{
+	for (int i = 0; i < POS_MAXFIGURA; i++)
+	{
+		Posicio pos = figura.getPosicio(i);
 		int fila = pos.getFila();
 		int columna = pos.getColumna();
 		m_tauler[fila][columna] = POSICIO_BUIDA;
@@ -86,10 +89,8 @@ bool Tauler::FiguraCorrectaTauler(const Figura& FiguraEnJoc)const
 		PosTemp = FiguraEnJoc.getPosicio(i);
 		int fila = PosTemp.getFila();
 		int columna = PosTemp.getColumna();
-		if (m_tauler[fila] [columna] != POSICIO_BUIDA or columna > 7 or fila > 7 or columna < 0)
-		{
+		if (m_tauler[fila] [columna] != POSICIO_BUIDA or columna > 10 or fila > 20 or columna < 0 or fila < 0)
 			pot = false;
-		}
 		else
 			i++;
 	}
@@ -137,8 +138,7 @@ int Tauler::filaCompleta(int files[])const
 
 void Tauler::eliminarFiles(const int files[],const int& numFiles)
 {
-	int j, r;
-	bool haDeBaixar;
+
 	for (int f = 0; f < numFiles; f++)
 	{
 		for (int c = 0; c < MAX_COLUMNES; c++)
@@ -188,4 +188,39 @@ Tauler Tauler::CopiaTauler()const
 		}
 	}
 	return copiaTauler;
+}
+
+bool Tauler::potApareixer(const Figura& figura)const
+{
+    bool pot = true;
+	int i = 0;
+	while (i < POS_MAXFIGURA and pot)
+	{
+		Posicio PosTemp;
+		PosTemp = figura.getPosicio(i);
+		int fila = PosTemp.getFila();
+		int columna = PosTemp.getColumna();
+		if (fila < 0 or columna > 10 or columna < 0 )
+			pot = false;
+		else
+			i++;
+	}
+	return pot;
+}
+bool Tauler::finalitzaJoc(const Figura& figura)const
+{
+	bool finalitza = false;
+	int i = 0;
+	while (i < POS_MAXFIGURA and !finalitza)
+	{
+		Posicio PosTemp;
+		PosTemp = figura.getPosicio(i);
+		int fila = PosTemp.getFila();
+		int columna = PosTemp.getColumna();
+		if (m_tauler[fila][columna]!=POSICIO_BUIDA)
+			finalitza = true;
+		else
+			i++;
+	}
+	return finalitza;
 }

@@ -1,14 +1,13 @@
 #include "Joc.h"
 
+
 //Método de la clase Joc sin retorno que recibe un string con el nombre del fichero que contiene toda la información del tablero inicial.
 //Para iniciar el tablero, se utiliza un método de la clase Tauler al que se le envía el nombre del fichero, que recibe este método,
 //y también la figura en juego para que se le guarde toda la información a esta. Finalmente iniciamos la puntuación en 0 junto al nivel.
 
-void Joc::inicialitza(const string& nomFitxer) {
+void Joc::inicialitzaFitxer(const string& nomFitxer,int& fila,int&columna) {
 
-	tauler.incialitzaTauler(nomFitxer,FiguraEnJoc);
-	m_puntuacio = 0;
-	m_nivell = 0;
+	tauler.incialitzaTauler(nomFitxer,FiguraEnJoc,fila,columna);
 }
 
 //Método de la clase Joc con retorno booleano que recibe una dirección de tipo DireccioGir. Esta dirección indica en que sentido tiene que
@@ -54,30 +53,42 @@ bool Joc::mouFigura(int dirX)
 //Si las filas completas no son mayores que cero acabat se vuelve true y, por lo tanto, se sale del bucle. Si la figura puede bajar, simplemente se sitúa la figura en el tablero. 
 //Este método devuelve el número de filas eliminadas.
 
-int Joc::baixaFigura()
+bool Joc::baixaFigura(int& puntuacio)
 {
-	int numFilesEliminades = 0;
 	int numFilesCompletes;
 	bool acabat = false;
 	if (!FiguraEnJoc.Baixa(tauler))
 	{
 		tauler.setFiguraTauler(FiguraEnJoc);
+		puntuacio += 10;
 		int filesEliminar[MAX_FILES];
 		while (!acabat)
 		{
 			numFilesCompletes = tauler.filaCompleta(filesEliminar);
 			if (numFilesCompletes > 0) {
+				switch (numFilesCompletes)
+				{
+				case 1: puntuacio += 100;
+					break;
+				case 2: puntuacio += 150;
+					break;
+				case 3: puntuacio += 175;
+					break;
+				case 4: puntuacio += 200;
+
+				}
 				tauler.eliminarFiles(filesEliminar, numFilesCompletes);
-				numFilesEliminades += numFilesCompletes;
 			}
 			else
 				acabat = true;
 		}
+		return false;
 	}
-	else
+	else 
+	{
 		tauler.setFiguraTauler(FiguraEnJoc);
-
-	return numFilesEliminades;
+		return true;
+	}
 }
 
 //Método de la clase Joc sin retorno que recibe parámetro tipo string con el nombre del fichero en el cual tiene que guardar las cosas. Para ello, se declara una variable tipo ofstream llamada
@@ -93,4 +104,103 @@ void Joc::escriuTauler(const string& nomFitxer)
 		tauler.estatTauler(Fitxer);
 	}
 	Fitxer.close();
+}
+
+void Joc::baixaFiguraFinal(int& fila, int& puntuacio)
+{
+	bool baixa = true;
+	while (baixa)
+	{
+		baixa = baixaFigura(puntuacio);
+		if (baixa)
+			fila++;
+	}
+}
+
+void Joc::actualitzaFiguraTransparent()
+{
+	figuraTransparent = FiguraEnJoc;
+	Tauler copia = tauler.CopiaTauler();
+
+	copia.eliminarFiguraTauler(FiguraEnJoc);
+	bool baixa = true;
+	while (baixa)
+		baixa = figuraTransparent.Baixa(copia);
+}
+
+void Joc::inicialitzaAleatori(int& fila, int& columna)
+{
+	bool correcte = false;
+	bool finalitza = false;
+	
+	while (!correcte and !finalitza)
+	{
+		int Tipus = rand() % 7 + 1;
+		TipusFigura tipus = TipusFigura(Tipus);
+		fila = 1;
+		columna = rand() % 10 + 1;
+		int Color = rand() % 7 + 1;
+		ColorFigura color = ColorFigura(Color);
+		int gir = rand() % 4 ;
+		FiguraEnJoc.inicialitza(tipus, color, fila, columna, gir);
+		correcte = tauler.potApareixer(FiguraEnJoc);
+	}
+		tauler.setFiguraTauler(FiguraEnJoc);
+		fila++;	
+		ActualitzaSeguentFigura();
+}
+void Joc::ActualitzaSeguentFigura()
+{
+	bool correcte = false;
+	bool finalitza = false;
+	while (!correcte)
+	{
+		int Tipus = rand() % 7 + 1;
+		TipusFigura tipus = TipusFigura(Tipus);
+		int fila = 1;
+		int columna = rand() % 9 + 1;
+		int Color = rand() % 7 + 1;
+		ColorFigura color = ColorFigura(Color);
+		int gir = rand() % 4;
+		figuraSeguent.inicialitza(tipus, color, fila, columna, gir);
+		correcte = tauler.potApareixer(figuraSeguent);
+	}
+}
+bool Joc::actualitzaFiguraFitxer(const Figura& Figura, int& fila,int& columna)
+{
+	bool finalitza = false;
+	fila = 2;
+	int gir;
+	TipusFigura tipus;
+	ColorFigura color;
+	
+	if (!tauler.finalitzaJoc(figuraSeguent))
+	{
+		FiguraEnJoc = figuraSeguent;
+		columna = FiguraEnJoc.getColumna();
+		figuraSeguent = Figura;
+	}
+	else
+		finalitza = true;
+	return finalitza;
+}
+
+bool Joc::actualitzaAleatori(int& fila, int& columna)
+{
+	bool finalitza = false;
+	fila = 1;
+	if (!tauler.finalitzaJoc(figuraSeguent))
+	{
+		FiguraEnJoc = figuraSeguent;
+		columna = FiguraEnJoc.getColumna();
+		ActualitzaSeguentFigura();
+	}
+	else
+		finalitza = true;
+	return finalitza;
+}
+
+void Joc::inicialitzaSeguentFiguraFitxer(const Figura& figura)
+{
+	figuraSeguent = figura;
 }

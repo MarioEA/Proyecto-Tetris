@@ -8,7 +8,7 @@
 
 void Figura::Baixar(Tauler& tauler)
 {
-	tauler.eliminarFiguraTauler(PosicioFiguraTauler);
+	tauler.eliminarPosicioTauler(PosicioFiguraTauler);
 	for (int i = 0; i < POS_MAXFIGURA; i++) {
 		
 		int fila = PosicioFiguraTauler[i].getFila() + 1;
@@ -23,7 +23,7 @@ void Figura::Baixar(Tauler& tauler)
 
 void Figura::desplacarDreta(Tauler& tauler)
 {
-	tauler.eliminarFiguraTauler(PosicioFiguraTauler);
+	tauler.eliminarPosicioTauler(PosicioFiguraTauler);
 	for (int i = 0; i < POS_MAXFIGURA; i++) {
 		int columna = PosicioFiguraTauler[i].getColumna() + 1;
 		PosicioFiguraTauler[i].setColumna(columna);
@@ -37,7 +37,7 @@ void Figura::desplacarDreta(Tauler& tauler)
 
 void Figura::desplacarEsquerra(Tauler& tauler)
 {
-	tauler.eliminarFiguraTauler(PosicioFiguraTauler);
+	tauler.eliminarPosicioTauler(PosicioFiguraTauler);
 	for (int i = 0; i < POS_MAXFIGURA; i++) {
 		int columna = PosicioFiguraTauler[i].getColumna() - 1;
 		PosicioFiguraTauler[i].setColumna(columna);
@@ -56,16 +56,27 @@ void Figura::inicialitza(TipusFigura const& tipus, ColorFigura const& color, int
 	Tipus = tipus;
 	Color = color;
 	int nPosicio = 0;
+	m_columna = columna;
 	switch (Tipus)
 	{
 	case FIGURA_O:
 	{
-		for (int f = fila-1; f < fila + 2; f++)
+		for (int f = fila; f < fila + 2; f++)
 		{
 			for (int c = columna; c < columna + 2; c++)
 			{
 				PosicioFiguraTauler[nPosicio].setFila(f);
 				PosicioFiguraTauler[nPosicio].setColumna(c);
+				nPosicio++;
+			}
+		}
+		nPosicio = 0;
+		for (int f = 0; f < 2; f++)
+		{
+			for (int c = 0; c < 2; c++)
+			{
+				posMatriuFigura[nPosicio].setFila(f);
+				posMatriuFigura[nPosicio].setColumna(c);
 				nPosicio++;
 			}
 		}
@@ -303,11 +314,15 @@ void Figura::inicialitza(TipusFigura const& tipus, ColorFigura const& color, int
 		}
 	}break;
 	}
+	if (tipus != FIGURA_O)
+	{
 		for (int k = 0; k < gir; k++)
 		{
 			traspostaInicial();
 			invertirColumnes();
-		}	
+		}
+	}
+		
 }
 
 //Constructor con parámetros de la clase Figura que evidentemente recibe todos los parámetros necesarios para hacer una copia de la Figura.
@@ -489,7 +504,7 @@ void Figura::invertirColumnes()
 
 void Figura::trasposta(Tauler& tauler)
 {
-	    tauler.eliminarFiguraTauler(PosicioFiguraTauler);
+	    tauler.eliminarPosicioTauler(PosicioFiguraTauler);
 		int temp;
 		Posicio PosicioAntigua[POS_MAXFIGURA];
 		for (int i = 0; i < POS_MAXFIGURA; i++)
@@ -610,7 +625,7 @@ bool Figura::Baixa(Tauler& tauler)
 
 bool Figura::Girar(DireccioGir const& dir, Tauler& tauler)
 {
-	if (potGirar(tauler,dir))
+	if (potGirar(tauler,dir) and Tipus!=FIGURA_O)
 	{
 			if (dir == GIR_HORARI)
 			{
@@ -626,4 +641,23 @@ bool Figura::Girar(DireccioGir const& dir, Tauler& tauler)
 	}
 	else
 		return false;	
+}
+
+void Posicio::operator=(const Posicio& pos)
+{
+	m_columna = pos.m_columna;
+	m_fila = pos.m_fila;
+}
+
+void Figura:: operator=(const Figura& figura)
+{
+	m_columna = figura.m_columna;
+	Tipus = figura.Tipus;
+	Color = figura.Color;
+
+	for (int i = 0; i < POS_MAXFIGURA; i++)
+	{
+		PosicioFiguraTauler[i] = figura.PosicioFiguraTauler[i];
+		posMatriuFigura[i] = figura.posMatriuFigura[i];
+	}	
 }
